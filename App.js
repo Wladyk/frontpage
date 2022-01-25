@@ -1,20 +1,52 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import 'react-native-gesture-handler';
+import * as React from 'react';
+import CustomStyle from './src/constants/CustomStyle';
+import { Button, View, Text } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import axios from 'axios';
+import { Provider } from 'react-redux';
+import store from './src/redux/store';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import Register from './src/screens/Register';
+import Home from './src/screens/Home';
+const Drawer = createDrawerNavigator();
 
-export default function App() {
+function App() {
+  
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+    <Provider store={store}>
+    <View style={[CustomStyle.container, {
+      // Try setting `flexDirection` to `"row"`.
+      flexDirection: "column"
+    }]}>
+      <View style={{ flex: 1, backgroundColor: "#969696" }}></View>
+      <View style={{ flex: 4, backgroundColor: "#212121" }} >
+        <NavigationContainer>
+          <Drawer.Navigator 
+            initialRouteName="Home"
+            screenOptions={{
+              drawerStyle: {
+                backgroundColor: '#ffffff',
+                width: 240,
+              },
+              drawerType: 'slide',
+          }}>
+            <Drawer.Screen name="Home" component={Home} />
+            <Drawer.Screen name="Register" component={Register} />
+          
+          </Drawer.Navigator>
+  
+        </NavigationContainer>
+      </View>
+      <View style={{ flex: 1, backgroundColor: "#414141" }}>
+        <Text>
+          
+        </Text>
+      </View>
+
     </View>
+    </Provider>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
